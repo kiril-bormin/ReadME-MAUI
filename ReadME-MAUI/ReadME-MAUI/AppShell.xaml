@@ -8,8 +8,9 @@
     Title="ReadME_MAUI">
 
     <ShellContent
-        Title="Home"
+        Title="ReadME!"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
+    
 
 </Shell>
