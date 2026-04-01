@@ -8,11 +8,11 @@ namespace ReadME_MAUI
         {
             try
             {
-                var result = await FilePicker.Default.PickAsync();
-                if (result == null) return;
-                EpubBook book = await EpubReader.ReadBookAsync(result.FullPath);
+                var result = await FilePicker.Default.PickAsync(); // demander à l'os d'ouvrir l'explorateur
+                if (result == null) return; 
+                EpubBook book = await EpubReader.ReadBookAsync(result.FullPath); //versone extrait les metadonnées
 
-                await DisplayAlert("Livre ", $"Titre : {book.Title}\nAuteur : {book.Author}", "Cool");
+                await DisplayAlert("Livre ", $"Titre : {book.Title}\nAuteur : {book.Author} \n{book.CoverImage}", "Cool");
             }
             catch (Exception ex)
             {
