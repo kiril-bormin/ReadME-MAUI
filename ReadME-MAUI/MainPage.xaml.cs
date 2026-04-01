@@ -1,18 +1,23 @@
-﻿namespace ReadME_MAUI
+﻿using VersOne.Epub;
+namespace ReadME_MAUI
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
-        public MainPage()
+        public MainPage() => InitializeComponent();
+        private async void ImportBook(object sender, EventArgs e)
         {
-            InitializeComponent();
-        }
+            try
+            {
+                var result = await FilePicker.Default.PickAsync();
+                if (result == null) return;
+                EpubBook book = await EpubReader.ReadBookAsync(result.FullPath);
 
-        private void ImportBook(object sender, EventArgs e)
-        {
-
+                await DisplayAlert("Livre ", $"Titre : {book.Title}\nAuteur : {book.Author}", "Cool");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Erreur d'importation de livre", ex.Message, "OK");
+            }
         }
     }
-
 }
