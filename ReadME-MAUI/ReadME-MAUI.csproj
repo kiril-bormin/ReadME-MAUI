@@ -63,4 +63,9 @@
 		<PackageReference Include="VersOne.Epub" Version="3.3.6" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="NewFolder1\" />
+	  <Folder Include="NewFolder\" />
+	</ItemGroup>
+
 </Project>
