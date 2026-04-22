@@ -3,28 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:ReadME_MAUI.Models"
              x:Class="ReadME_MAUI.MainPage">
-
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Ajouter" Clicked="ImportBook" Order="Primary"/>
     </ContentPage.ToolbarItems>
 
-    <CollectionView ItemsSource="{Binding MyBooks}" Margin="10"> <!--Binding indique qu'on connecte xaml avec c# pour récuperér la liste et que on la parcourt ici-->
-        <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="20" VerticalItemSpacing="20" />
-        </CollectionView.ItemsLayout>
+    <VerticalStackLayout>
+        <!--<SearchBar Placeholder="Rechercher un livre..." Margin="10,5" />-->
+        <CollectionView ItemsSource="{Binding MyBooks}" Margin="10" SelectionMode="Single" SelectionChanged="OnSelectedBook">
+            <!--Binding indique qu'on connecte xaml avec c# pour récuperér la liste et que on la parcourt ici-->
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="20" VerticalItemSpacing="20" />
+            </CollectionView.ItemsLayout>
 
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:Book">
-                <VerticalStackLayout Spacing="5" WidthRequest="140">
-                    <Border HeightRequest="200" WidthRequest="140">
-                        <Image Source="{Binding Cover}" Aspect="AspectFill" BackgroundColor="LightGray" />
-                    </Border>
-                    
-                    <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="16" LineBreakMode="TailTruncation" />
-                    <Label Text="{Binding Author}" FontSize="13" TextColor="Gray" />
-                </VerticalStackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Book">
+                    <VerticalStackLayout Spacing="5" WidthRequest="140">
+                        <Border HeightRequest="200" WidthRequest="140">
+                            <Image Source="{Binding Cover}" Aspect="AspectFill" BackgroundColor="LightGray" />
+                        </Border>
+
+                        <Grid ColumnDefinitions="*, Auto" Margin="0,5,0,0">
+                            <Label Grid.Column="0" Text="{Binding Title}" 
+                                   FontAttributes="Bold" FontSize="16" LineBreakMode="TailTruncation" />
+                            <Label Grid.Column="1" Text="⋮" FontSize="18" 
+                                   VerticalOptions="Center" HorizontalOptions="End" Padding="5,0"/>
+                        </Grid>
+
+                        <Label Text="{Binding Author}" FontSize="13" TextColor="Gray" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
 
 </ContentPage>
