@@ -11,7 +11,7 @@ namespace ReadME_MAUI.Models
         public string Title { get; set; }
         public string Author { get; set; }
         public string File { get; set; }
-        public ImageSource Image { get; set; }
+        public ImageSource? Cover { get; set; }
 
     }
 }

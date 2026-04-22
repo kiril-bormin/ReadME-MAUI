@@ -1,4 +1,5 @@
 ﻿using VersOne.Epub;
+using System.IO;
 using ReadME_MAUI.Models;
 using System.Collections.ObjectModel;
 namespace ReadME_MAUI
@@ -21,8 +22,14 @@ namespace ReadME_MAUI
                 if (result == null) return; 
                 EpubBook book = await EpubReader.ReadBookAsync(result.FullPath); //VersOne extrait les metadonnées
 
-                // titre, description, boutons
-                await DisplayAlert("Livre ", $"Titre : {book.Title}\nAuteur : {book.Author} \n{book.CoverImage}", "Cool"); 
+                MyBooks.Add(new Book
+                {
+                    Title = book.Title,
+                    Author = book.Author,
+                    // Conversion de l'image binaire de l'Epub en ImageSource MAUI
+                    Cover = book.CoverImage != null ? ImageSource.FromStream(() => new MemoryStream(book.CoverImage)) : null
+                });
+
             }
             catch (Exception error)
             {
