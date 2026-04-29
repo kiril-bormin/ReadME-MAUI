@@ -7,7 +7,7 @@
 
     <Grid RowDefinitions="Auto, *, Auto">
 
-        <!--Header -  -->
+        <!-- Header -->
         <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="20,15,20,0">
             <Label x:Name="TopTitleLabel" Text="Titre du livre" 
                    HorizontalOptions="Center" TextColor="Gray" FontSize="14" />
@@ -15,30 +15,23 @@
                    TextColor="Gray" FontSize="14" />
         </Grid>
 
-        <WebView Grid.Row="1" x:Name="BookWebview" Margin="15,0" />
+        <WebView Grid.Row="1" x:Name="BookWebview" />
 
-        <VerticalStackLayout Grid.Row="2" Padding="20,10,20,20" Spacing="10">
+        <!-- Boutons navigation -->
+        <Grid Grid.Row="2" ColumnDefinitions="*, *" Padding="20,10,20,30" ColumnSpacing="10">
+            <Button Grid.Column="0" Text="← Précédent"
+                    Clicked="OnPreviousPageClicked"
+                    BackgroundColor="#EEEEEE"
+                    TextColor="#333333"
+                    FontSize="14"
+                    CornerRadius="8" />
+            <Button Grid.Column="1" Text="Suivant →"
+                    Clicked="OnNextPageClicked"
+                    BackgroundColor="#EEEEEE"
+                    TextColor="#333333"
+                    FontSize="14"
+                    CornerRadius="8" />
+        </Grid>
 
-            <Grid ColumnDefinitions="Auto, *, Auto">
-                <HorizontalStackLayout Grid.Column="0" Spacing="5" VerticalOptions="Center">
-                    <Label Text="←" FontSize="18" />
-                    <Label Text="Précédent" FontSize="11" TextColor="Gray" VerticalOptions="Center" />
-                </HorizontalStackLayout>
-
-                <Label Grid.Column="1" x:Name="ChapterTitleLabel" 
-                       Text="PREMIÈRE PARTIE" HorizontalOptions="Center" 
-                       VerticalOptions="Center" FontAttributes="Bold" FontSize="16" />
-
-                <HorizontalStackLayout Grid.Column="2" Spacing="5" VerticalOptions="Center">
-                    <Label Text="Suivant" FontSize="11" TextColor="Gray" VerticalOptions="Center" />
-                    <Label Text="→" FontSize="18" />
-                </HorizontalStackLayout>
-            </Grid>
-
-            <ProgressBar x:Name="BookProgressBar" Progress="0.02" ProgressColor="Black" HeightRequest="2" />
-            <Label x:Name="PageCountLabel" Text="1 / 48" 
-                   HorizontalOptions="Center" FontSize="11" TextColor="Gray" />
-
-        </VerticalStackLayout>
     </Grid>
 </ContentPage>
