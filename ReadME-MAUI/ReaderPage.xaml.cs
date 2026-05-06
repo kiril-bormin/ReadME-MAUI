@@ -37,18 +37,17 @@ public partial class ReaderPage : ContentPage
         #page-wrapper {{
             width: 100vw;
             height: 100vh;
+            padding: 30px 35px;
             overflow: hidden;
         }}
         #content {{
-            padding: 30px 35px;
+            height: 100%;
             font-family: Georgia, serif;
             font-size: 18px;
             line-height: 1.7;
             color: #111;
             text-align: justify;
             column-fill: auto;
-            column-gap: 0px;
-            overflow: hidden;
             transition: transform 0.35s ease;
         }}
         img {{ max-width: 100%; height: auto; display: block; margin: auto; }}
@@ -60,34 +59,48 @@ public partial class ReaderPage : ContentPage
     </div>
     <script>
         let currentPage = 0;
-        let pageWidth = 0;
+        let shiftWidth = 0;
         let totalPages = 1;
 
         function init() {{
             let content = document.getElementById('content');
             let wrapper = document.getElementById('page-wrapper');
 
-            pageWidth = wrapper.clientWidth;
-            let pageHeight = wrapper.clientHeight;
+            content.style.transform = 'none';
+            content.style.width = 'auto';
+            content.style.height = '100%';
+            content.style.columnWidth = 'auto';
+            content.style.columnGap = 'normal';
 
-            content.style.width = pageWidth + 'px';
-            content.style.height = pageHeight + 'px';
-            content.style.columnWidth = pageWidth + 'px';
+            let wrapperWidth = wrapper.clientWidth; 
+            let style = window.getComputedStyle(wrapper);
+            let padLeft = parseFloat(style.paddingLeft) || 0;
+            let padRight = parseFloat(style.paddingRight) || 0;
+            
+            let contentInnerWidth = wrapperWidth - padLeft - padRight;
+            
+            content.style.columnWidth = contentInnerWidth + 'px';
+            content.style.columnGap = (padLeft + padRight) + 'px';
+            
+            shiftWidth = wrapperWidth;
 
             setTimeout(function() {{
-                // scrollHeight / pageHeight = nb de colonnes de hauteur pageHeight
-                let scrollH = content.scrollHeight;
-                totalPages = Math.max(1, Math.round(scrollH / pageHeight));
-                currentPage = 0;
-                content.style.transform = 'translateX(0)';
-            }}, 400);
+                let scrollW = content.scrollWidth;
+                totalPages = Math.max(1, Math.ceil(scrollW / shiftWidth));
+                
+                if (currentPage >= totalPages) {{
+                    currentPage = Math.max(0, totalPages - 1);
+                }}
+                
+                content.style.transform = 'translateX(-' + (currentPage * shiftWidth) + 'px)';
+            }}, 100);
         }}
 
         function nextPage() {{
             if (currentPage < totalPages - 1) {{
                 currentPage++;
                 let content = document.getElementById('content');
-                content.style.transform = 'translateX(-' + (currentPage * pageWidth) + 'px)';
+                content.style.transform = 'translateX(-' + (currentPage * shiftWidth) + 'px)';
             }}
         }}
 
@@ -95,11 +108,10 @@ public partial class ReaderPage : ContentPage
             if (currentPage > 0) {{
                 currentPage--;
                 let content = document.getElementById('content');
-                content.style.transform = 'translateX(-' + (currentPage * pageWidth) + 'px)';
+                content.style.transform = 'translateX(-' + (currentPage * shiftWidth) + 'px)';
             }}
         }}
 
-        // Bloquer tout scroll tactile
         document.addEventListener('touchmove', function(e) {{ e.preventDefault(); }}, {{ passive: false }});
 
         window.addEventListener('load', function() {{
