@@ -73,8 +73,10 @@ public partial class ReaderPage : ContentPage
             width: 100vw;
             height: 100vh;
             padding: 30px 35px;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: hidden;
             box-sizing: border-box;
+            scroll-behavior: smooth;
         }}
         #content {{
             height: 100%;
@@ -86,7 +88,6 @@ public partial class ReaderPage : ContentPage
             column-fill: auto;
             column-width: calc(100vw - 70px);
             column-gap: 70px;
-            transition: transform 0.35s ease;
         }}
         img {{ max-width: 100%; height: auto; display: block; margin: auto; }}
     </style>
@@ -113,7 +114,7 @@ public partial class ReaderPage : ContentPage
                     currentPage = Math.max(0, totalPages - 1);
                 }}
                 
-                content.style.transform = 'translateX(calc(-100vw * ' + currentPage + '))';
+                wrapper.scrollLeft = exactShiftW * currentPage;
             }}, 150);
         }}
 
@@ -125,8 +126,9 @@ public partial class ReaderPage : ContentPage
         function nextPage() {{
             if (currentPage < totalPages - 1) {{
                 currentPage++;
-                let content = document.getElementById('content');
-                content.style.transform = 'translateX(calc(-100vw * ' + currentPage + '))';
+                let wrapper = document.getElementById('page-wrapper');
+                let exactShiftW = wrapper.getBoundingClientRect().width;
+                wrapper.scrollTo({{ left: exactShiftW * currentPage, behavior: 'smooth' }});
             }}
             return getPercentage();
         }}
@@ -134,8 +136,9 @@ public partial class ReaderPage : ContentPage
         function prevPage() {{
             if (currentPage > 0) {{
                 currentPage--;
-                let content = document.getElementById('content');
-                content.style.transform = 'translateX(calc(-100vw * ' + currentPage + '))';
+                let wrapper = document.getElementById('page-wrapper');
+                let exactShiftW = wrapper.getBoundingClientRect().width;
+                wrapper.scrollTo({{ left: exactShiftW * currentPage, behavior: 'smooth' }});
             }}
             return getPercentage();
         }}

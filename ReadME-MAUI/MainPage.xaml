@@ -7,9 +7,9 @@
         <ToolbarItem Text="Ajouter" Clicked="ImportBook" Order="Primary"/>
     </ContentPage.ToolbarItems>
 
-    <VerticalStackLayout>
-        <!--<SearchBar Placeholder="Rechercher un livre..." Margin="10,5" />-->
-        <CollectionView ItemsSource="{Binding MyBooks}" Margin="10" SelectionMode="Single" SelectionChanged="OnSelectedBook">
+    <Grid RowDefinitions="Auto, *">
+        <!--<SearchBar Grid.Row="0" Placeholder="Rechercher un livre..." Margin="10,5" />-->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding MyBooks}" Margin="10,10,10,40" SelectionMode="Single" SelectionChanged="OnSelectedBook">
             <!--Binding indique qu'on connecte xaml avec c# pour récuperér la liste et que on la parcourt ici-->
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="20" VerticalItemSpacing="20" />
@@ -38,6 +38,6 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </VerticalStackLayout>
+    </Grid>
 
 </ContentPage>
