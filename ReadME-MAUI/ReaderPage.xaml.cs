@@ -76,7 +76,7 @@ public partial class ReaderPage : ContentPage
             overflow-x: hidden;
             overflow-y: hidden;
             box-sizing: border-box;
-            scroll-behavior: smooth;
+            scroll-behavior: auto;
         }}
         #content {{
             height: 100%;
@@ -88,6 +88,8 @@ public partial class ReaderPage : ContentPage
             column-fill: auto;
             column-width: calc(100vw - 70px);
             column-gap: 70px;
+            transition: opacity 0.15s ease-in-out;
+            opacity: 1;
         }}
         img {{ max-width: 100%; height: auto; display: block; margin: auto; }}
     </style>
@@ -123,12 +125,22 @@ public partial class ReaderPage : ContentPage
             return Math.round((currentPage / (totalPages - 1)) * 100);
         }}
 
+        function turnPageWithFade() {{
+            let content = document.getElementById('content');
+            let wrapper = document.getElementById('page-wrapper');
+            let exactShiftW = wrapper.getBoundingClientRect().width;
+            
+            content.style.opacity = '0';
+            setTimeout(function() {{
+                wrapper.scrollLeft = exactShiftW * currentPage;
+                content.style.opacity = '1';
+            }}, 150);
+        }}
+
         function nextPage() {{
             if (currentPage < totalPages - 1) {{
                 currentPage++;
-                let wrapper = document.getElementById('page-wrapper');
-                let exactShiftW = wrapper.getBoundingClientRect().width;
-                wrapper.scrollTo({{ left: exactShiftW * currentPage, behavior: 'smooth' }});
+                turnPageWithFade();
             }}
             return getPercentage();
         }}
@@ -136,9 +148,7 @@ public partial class ReaderPage : ContentPage
         function prevPage() {{
             if (currentPage > 0) {{
                 currentPage--;
-                let wrapper = document.getElementById('page-wrapper');
-                let exactShiftW = wrapper.getBoundingClientRect().width;
-                wrapper.scrollTo({{ left: exactShiftW * currentPage, behavior: 'smooth' }});
+                turnPageWithFade();
             }}
             return getPercentage();
         }}
